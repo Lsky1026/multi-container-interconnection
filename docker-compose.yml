@@ -1,0 +1,57 @@
+version: '3'
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: ./docker/Dockerfile.nginx
+    container_name: lsky_web
+    ports:
+      - "8001:80"
+      - "8002:443"
+    depends_on:
+      - php
+    volumes:
+      - "./etc/nginx:/etc/nginx/conf.d"
+      - "./data:/var/www/html"
+    networks:
+      - range-net
+  php:
+    build: 
+      context: .
+      dockerfile: /docker/Dockerfile.php-fpm
+    container_name: lsky_php
+    ports:
+      - "8003:9000"
+    depends_on:
+      - redis
+      - mysql
+    expose:
+      - "9000"
+    volumes:
+      - "./data:/var/www/html"
+    networks: 
+      - range-net
+    
+  redis:
+    image: redis:latest
+    container_name: lsky_redis
+    expose:
+      - "6379"
+    ports:
+      - "8004:6379"
+    networks: 
+      - range-net
+  mysql:
+    image: mysql:latest
+    container_name: lsky_mysql
+    expose:
+      - "3306"
+    ports:
+      - "8005:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    networks: 
+      - range-net
+networks: 
+  range-net:
+    external: true

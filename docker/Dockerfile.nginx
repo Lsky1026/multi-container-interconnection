@@ -1,0 +1,8 @@
+FROM nginx:latest
+
+ENV TZ=Asia/Shanghai
+
+RUN set -xe \
+    && apt-get update \
+    && apt-get install wget git vim -y \
+    && apt-get autoremove -y
