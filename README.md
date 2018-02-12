@@ -11,3 +11,5 @@
 
     4.所有依赖全部安装完成 打开浏览器 输入localhost:8001及看到phpinfo、mysql和redis连接信息
     !["成功照片"](./success.png)
+
+    5. 不知道如何在容器中连接mysql或者redis请看./data/index.php文件
